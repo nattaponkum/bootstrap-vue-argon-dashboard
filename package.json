@@ -56,6 +56,6 @@
   "author": "Creative Tim - https://www.creative-tim.com/",
   "description": "BootstrapVue Argon Dashboard",
   "engines": {
-    "node": "14.15.4"
+    "node": "<=14.15.4"
   }
 }

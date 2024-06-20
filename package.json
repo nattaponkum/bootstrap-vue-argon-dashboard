@@ -54,5 +54,8 @@
     "not ie <= 10"
   ],
   "author": "Creative Tim - https://www.creative-tim.com/",
-  "description": "BootstrapVue Argon Dashboard"
+  "description": "BootstrapVue Argon Dashboard",
+  "engines": {
+    "node": "14.15.4"
+  }
 }

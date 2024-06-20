@@ -19,13 +19,21 @@ import DashboardPlugin from './plugins/dashboard-plugin';
 import App from './App.vue';
 
 // router setup
-import router from './routes/router';
+import router from './router';
+
+// 
+import { sync } from 'vuex-router-sync'
+import store from './store'
+
 // plugin setup
 Vue.use(DashboardPlugin);
 
+sync(store, router)
+
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  // el: '#app',
   render: h => h(App),
-  router
-});
+  router,
+  store,
+}).$mount('#app');

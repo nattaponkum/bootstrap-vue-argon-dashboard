@@ -2,9 +2,10 @@ import axios from 'axios'
 import store from '@/store'
 
 export default () => {
+    console.log('store.state.token', store.state.token)
     return axios.create({
         // baseURL: 'http://localhost:8081/',
-        baseURL: ' https://57f3-2403-6200-8840-2fa7-b54c-ccdb-8139-28fb.ngrok-free.app/',
+        baseURL: 'https://4b05-110-170-245-39.ngrok-free.app',
         headers: {
             Authorization: `Bearer ${store.state.token}`
         }

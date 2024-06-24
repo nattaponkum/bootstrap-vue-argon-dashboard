@@ -5,55 +5,177 @@
       <!-- Card stats -->
       <b-row>
         <b-col xl="3" md="6">
-          <stats-card title="Total traffic"
-                      type="gradient-red"
-                      sub-title="350,897"
-                      icon="ni ni-active-40"
+          <stats-card type="gradient-red"
+                      icon="ni ni-bulb-61"
                       class="mb-4">
-
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">
+                  Today Power
+                </h5>
+                <span class="h2 font-weight-bold mb-0">{{ 
+                  numberWithCommas(this.PacTodayTotal.toFixed(2))
+                }}</span>
+              </div>
+            </div>
             <template slot="footer">
-              <span class="text-success mr-2">3.48%</span>
-              <span class="text-nowrap">Since last month</span>
+              <div v-if="this.PacDiffTodayTotal > 0">
+                <span class="text-success mr-2">
+                  <i class="fa fa-arrow-up"></i
+                  >{{
+                      (
+                        (this.PacDiffTodayTotal / this.PacYesterdayTotal) *
+                        100
+                      ).toFixed(2)
+                  }}%
+                </span>
+                <span class="text-nowrap">Since yesterday</span>
+              </div>  
+              <div v-else>
+                <span class="text-danger mr-2">
+                  <i class="fa fa-arrow-down"></i
+                  >{{
+                      (
+                        (this.PacDiffTodayTotal / this.PacYesterdayTotal) *
+                        100
+                      ).toFixed(2)
+                  }}%
+                </span>
+                <span class="text-nowrap">Since yesterday</span>
+              </div>
             </template>
           </stats-card>
         </b-col>
         <b-col xl="3" md="6">
-          <stats-card title="Total traffic"
+          <stats-card 
                       type="gradient-orange"
-                      sub-title="2,356"
+                      
                       icon="ni ni-chart-pie-35"
                       class="mb-4">
-
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">
+                  Monthly Power
+                </h5>
+                <span class="h2 font-weight-bold mb-0">{{ 
+                  numberWithCommas((this.PacMonthTotal).toFixed(2))
+                }}</span>
+              </div>
+            </div>
             <template slot="footer">
-              <span class="text-success mr-2">12.18%</span>
-              <span class="text-nowrap">Since last month</span>
+              <div v-if="this.PacDiffMonthTotal > 0">
+                <span class="text-success mr-2">
+                  <i class="fa fa-arrow-up"></i
+                  >{{
+                      (
+                        (this.PacDiffMonthTotal / this.PacLastMonthTotal) *
+                        100
+                      ).toFixed(2)
+                  }}%
+                </span>
+                <span class="text-nowrap">Since Last Month</span>
+              </div>
+              <div v-else>
+                <span class="text-danger mr-2">
+                  <i class="fa fa-arrow-down"></i
+                  >{{
+                      (
+                        (this.PacDiffMonthTotal / this.PacLastMonthTotal) *
+                        100
+                      ).toFixed(2)
+                  }}%
+                </span>
+                <span class="text-nowrap">Since Last Month</span>
+              </div>
             </template>
           </stats-card>
         </b-col>
         <b-col xl="3" md="6">
-          <stats-card title="Sales"
+          <stats-card 
                       type="gradient-green"
-                      sub-title="924"
+                      
                       icon="ni ni-money-coins"
                       class="mb-4">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">
+                  Today Gain
+                </h5>
+                <span class="h2 font-weight-bold mb-0">{{ 
+                  numberWithCommas((this.PacTodayTotal*this.PacUnitCost).toFixed(2))
+                }}</span>
+              </div>
+            </div>
 
             <template slot="footer">
-              <span class="text-danger mr-2">5.72%</span>
-              <span class="text-nowrap">Since last month</span>
+              <div v-if="this.PacDiffTodayTotal > 0">
+                <span class="text-success mr-2">
+                  <i class="fa fa-arrow-up"></i
+                  >{{
+                      (
+                        (this.PacDiffTodayTotal / this.PacYesterdayTotal) *
+                        100
+                      ).toFixed(2)
+                  }}%
+                </span>
+                <span class="text-nowrap">Since yesterday</span>
+              </div>
+              <div v-else>
+                <span class="text-danger mr-2">
+                  <i class="fa fa-arrow-down"></i
+                  >{{
+                      (
+                        (this.PacDiffTodayTotal / this.PacYesterdayTotal) *
+                        100
+                      ).toFixed(2)
+                  }}%
+                </span>
+                <span class="text-nowrap">Since yesterday</span>
+              </div>
             </template>
           </stats-card>
 
         </b-col>
         <b-col xl="3" md="6">
-          <stats-card title="Performance"
+          <stats-card 
                       type="gradient-info"
-                      sub-title="49,65%"
+                      
                       icon="ni ni-chart-bar-32"
                       class="mb-4">
-
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">
+                  Monthly Gain
+                </h5>
+                <span class="h2 font-weight-bold mb-0">{{ 
+                  numberWithCommas((this.PacMonthTotal*this.PacUnitCost).toFixed(2))
+                }}</span>
+              </div>
+            </div>
             <template slot="footer">
-              <span class="text-success mr-2">54.8%</span>
-              <span class="text-nowrap">Since last month</span>
+              <div v-if="this.PacDiffMonthTotal > 0">
+                <span class="text-success mr-2">
+                  <i class="fa fa-arrow-up"></i
+                  >{{
+                      
+                      (
+                        (this.PacDiffMonthTotal / this.PacLastMonthTotal) *
+                        100
+                      ).toFixed(2)
+                      
+                  }}%
+                </span>
+                <span class="text-nowrap">Since Last Month</span>
+              </div>
+              <div v-else>
+                <span class="text-danger mr-2">
+                  <i class="fa fa-arrow-down"></i
+                  >{{
+                      (this.PacLastMonthTotal) 
+                  }}%
+                </span>
+                <span class="text-nowrap">Since Last Month</span>
+              </div>
             </template>
           </stats-card>
         </b-col>
@@ -445,14 +567,16 @@
       this.PacYesterdayTotal = (
         await PVService.showTotalByDate(strYesterday)
       ).data;
-      this.PacDiffTodayTotal = this.PacYesterdayTotal - this.PacTodayTotal;
-
+      this.PacDiffTodayTotal = this.PacTodayTotal - this.PacYesterdayTotal;
+      console.log("PacTodayTotal = "+this.PacTodayTotal);
+      console.log("PacYesterdayTotal = "+this.PacYesterdayTotal);
+      console.log("PacDiffTodayTotal = "+this.PacDiffTodayTotal);
       // get pv data for cards that represent  monthly Pac total number
       this.PacMonthTotal = (await PVService.showTotalByMonth(strYear+'-'+get2DigitNumber(strMonth))).data;
       this.PacLastMonthTotal = (
         await PVService.showTotalByMonth(strLastMonth)
       ).data;
-      this.PacDiffMonthTotal = this.PacLastMonthTotal - this.PacMonthTotal;
+      this.PacDiffMonthTotal = this.PacMonthTotal - this.PacLastMonthTotal;
 
       // get all pv data for cards that represent total number
       //this.pv = (await PVService.index()).data;

@@ -304,6 +304,7 @@ export default {
     try {
       let userId = this.$store.getters.getState.userID
       this.$data.model = (await UserService.show(userId)).data
+      console.log(this.$data.model)
     } catch (error) {
       console.log (error)
     }

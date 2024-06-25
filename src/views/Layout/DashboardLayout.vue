@@ -12,14 +12,14 @@
         >
         </sidebar-item>
 
-        <!-- <sidebar-item
+        <sidebar-item
             :link="{
-              name: 'Icons',
-              path: '/icons',
-              icon: 'ni ni-planet text-blue'
+              name: 'Battery',
+              path: '/battery',
+              icon: 'ni ni-app text-blue'
               }"
             >
-        </sidebar-item> -->
+        </sidebar-item>
 
         <!-- <sidebar-item
               :link="{

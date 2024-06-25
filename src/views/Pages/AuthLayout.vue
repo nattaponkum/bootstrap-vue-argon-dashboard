@@ -41,6 +41,12 @@
               <span class="nav-link-inner--text">Dashboard</span>
             </b-nav-item>
           </li>
+          <li v-if="$store.getters.getState.token!=null" class="nav-item">
+            <b-nav-item to="/battery">
+              <i class="ni ni-planet"></i>
+              <span class="nav-link-inner--text">Battery</span>
+            </b-nav-item>
+          </li>
           <li v-if="$store.getters.getState.token != null && $store.getters.getState.userStatus == 'admin'" class="nav-item">
             <b-nav-item to="/register">
               <i class="ni ni-circle-08"></i>

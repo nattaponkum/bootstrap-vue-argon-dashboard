@@ -581,7 +581,6 @@
       // get all pv data for cards that represent total number
       //this.pv = (await PVService.index()).data;
       await this.initBigChart(0);
-      await this.initTotalCards();
       console.log("mounted");
     }
   };

@@ -189,8 +189,27 @@
           <card type="default" header-classes="bg-transparent">
             <b-row align-v="center" slot="header">
               <b-col>
-                <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                <h5 class="h3 text-white mb-0">Sales value</h5>
+                <h6 class="text-light text-uppercase ls-1 mb-1">Power A/C</h6>
+                <h5 class="h3 text-white mb-0">Pac Today</h5>
+              </b-col>
+              
+            </b-row>
+            <line-chart
+              :height="350"
+              ref="bigChart"
+              :chart-data="bigLineChart.chartData"
+              :extra-options="bigLineChart.extraOptions"
+            >
+            </line-chart>
+          </card>
+        </b-col>
+
+        <b-col xl="4" class="mb-5 mb-xl-0">
+          <card header-classes="bg-transparent">
+            <b-row align-v="center" slot="header">
+              <b-col>
+                <h6 class="text-uppercase text-muted ls-1 mb-1">Power A/C</h6>
+                <h5 class="h3 mb-0">Summary</h5>
               </b-col>
               <b-col>
                 <b-nav class="nav-pills justify-content-end">
@@ -207,28 +226,10 @@
                     :active="bigLineChart.activeIndex === 1"
                     @click.prevent="initBigChart(1)"
                   >
-                    <span class="d-none d-md-block">Week</span>
-                    <span class="d-md-none">W</span>
+                    <span class="d-none d-md-block">Year</span>
+                    <span class="d-md-none">Y</span>
                   </b-nav-item>
                 </b-nav>
-              </b-col>
-            </b-row>
-            <line-chart
-              :height="350"
-              ref="bigChart"
-              :chart-data="bigLineChart.chartData"
-              :extra-options="bigLineChart.extraOptions"
-            >
-            </line-chart>
-          </card>
-        </b-col>
-
-        <b-col xl="4" class="mb-5 mb-xl-0">
-          <card header-classes="bg-transparent">
-            <b-row align-v="center" slot="header">
-              <b-col>
-                <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
-                <h5 class="h3 mb-0">Total orders</h5>
               </b-col>
             </b-row>
 
@@ -482,8 +483,10 @@
       // this.bigLineChart.allLabels = getColumn(this.pv, "Time");
       // this.bigLineChart.allLabels = getIndexList(this.bigLineChart.allLabels);
 
-      var today = moment("2020-09-25", "YYYY-MM-DD", true);
-      // var today = moment()
+      // fix date to 2020-09-25
+      // var today = moment("2020-09-25", "YYYY-MM-DD", true);
+      // use today date
+      var today = moment()
       var month = today.get("month", "M") + 1;
       var year = today.get("year", "YYYY");
       var yesterday = today.clone().subtract("1", "day");
@@ -492,20 +495,23 @@
 
       var strDate = today.format("YYYY-MM-DD");
       var strYesterday = yesterday.format("YYYY-MM-DD");
-      var strMonth = String(month);
-      var strLastMonth = String(lastMonth);
+      // strMonth is in the format of 'YYYY-MM'
+      var strMonth = year + '-' + get2DigitNumber(month);
+      // strLastMonth is in the format of 'YYYY-MM'
+      var strLastMonth = year + '-' + get2DigitNumber(lastMonth);
       var strYear = String(year);
       var strLastYear = String(lastYear);
 
-      console.log("strDate =" + strDate);
-      console.log("month =" + month);
-      console.log("strYesterday =" + strYesterday);
-      console.log("strLastMonth =" + strLastMonth);
-      console.log("strYear =" + strYear);
-      console.log("strLastYear =" + strLastYear);
+      console.log("strDate = " + strDate);
+      console.log("month = " + month);
+      console.log("strYesterday = " + strYesterday);
+      console.log("strLastMonth = " + strLastMonth);
+      console.log("strYear = " + strYear);
+      console.log("strLastYear = " + strLastYear);
 
       // call backend for data
       this.pv = (await PVService.showByDate(strDate)).data;
+      console.log(this.pv);
 
       // get pv by date for bigLineChart
       this.bigLineChart.allData = getColumn(this.pv, "Pac");
@@ -540,7 +546,8 @@
         monthlyDataArr.push(monthlyData);
 
       }
-      monthlyDataArr = [30000,35000,35000,23000,40000,30000,39000,80000,50000,60000,70000,90000]
+      // dummy data
+      // monthlyDataArr = [30000,35000,35000,23000,40000,30000,39000,80000,50000,60000,70000,90000]
       console.log("monthlyDataArr"+monthlyDataArr)
       this.redBarChart.allData[0] = monthlyDataArr;
       this.redBarChart.allLabels[0] = getMonthLabelArr(monthNumberArr);
@@ -572,11 +579,13 @@
       console.log("PacYesterdayTotal = "+this.PacYesterdayTotal);
       console.log("PacDiffTodayTotal = "+this.PacDiffTodayTotal);
       // get pv data for cards that represent  monthly Pac total number
-      this.PacMonthTotal = (await PVService.showTotalByMonth(strYear+'-'+get2DigitNumber(strMonth))).data;
-      this.PacLastMonthTotal = (
-        await PVService.showTotalByMonth(strLastMonth)
-      ).data;
+      this.PacMonthTotal = (await PVService.showTotalByMonth(strMonth)).data;
+      this.PacLastMonthTotal = (await PVService.showTotalByMonth(strLastMonth)).data;
       this.PacDiffMonthTotal = this.PacMonthTotal - this.PacLastMonthTotal;
+      console.log("PacMonthTotal = "+this.PacMonthTotal);
+      console.log("PacLastMonthTotal = "+this.PacLastMonthTotal);
+      console.log("PacDiffMonthTotal = "+this.PacDiffMonthTotal);
+
 
       // get all pv data for cards that represent total number
       //this.pv = (await PVService.index()).data;

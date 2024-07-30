@@ -10,6 +10,7 @@ export default {
         return Api().get('PVTOTALDATE/' + date)
     },
     showTotalByMonth(month) {
+        // month is in the format of 'YYYY-MM'
         return Api().get('PVTOTALMONTH/' + month)
     },
     showTotalByYear(year) {

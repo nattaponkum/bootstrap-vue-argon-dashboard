@@ -74,7 +74,7 @@
     </div>
 
     <footer class="py-5" id="footer-main">
-      <b-container>
+      <!-- <b-container>
         <b-row align-v="center" class="justify-content-xl-between">
           <b-col xl="6">
             <div class="copyright text-center text-xl-left text-muted">
@@ -112,7 +112,7 @@
             </b-nav>
           </b-col>
         </b-row>
-      </b-container>
+      </b-container> -->
     </footer>
   </div>
 </template>

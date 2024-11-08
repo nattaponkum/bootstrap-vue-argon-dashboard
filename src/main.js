@@ -15,27 +15,27 @@
 
 */
 import Vue from 'vue';
+import DashboardPlugin from './plugins/dashboard-plugin';
 import App from './App.vue';
+
 import router from './router';
 import { sync } from 'vuex-router-sync'
 import VueResource from 'vue-resource'
 import store from './store'
-import DashboardPlugin from './plugins/dashboard-plugin';
 
 Vue.config.productionTip = false;
 
+sync(store, router)
 // plugin setup
 Vue.use(VueResource);
 Vue.use(DashboardPlugin);
 
-
-sync(store, router)
 console.log("VueJs version:"+Vue.version)
 /* eslint-disable no-new */
 new Vue({
   // el: '#app',
+  store,
   render: h => h(App),
   router,
-  store,
 }).$mount('#app');
 

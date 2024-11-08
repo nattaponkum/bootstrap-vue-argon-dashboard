@@ -47,9 +47,7 @@
               <span class="text-muted">Remember me</span>
             </base-checkbox>
             <div class="text-center">
-              <base-button  @click="onLogin" class="my-4"
-                >Sign in</base-button
-              >
+              <base-button @click="onLogin" class="my-4">Sign in</base-button>
             </div>
             <div class="text-center text-muted mb-4" type="danger" v-if="error">
               <small>{{ error }}</small>
@@ -94,17 +92,20 @@ export default {
           username: this.username,
           password: this.password,
         });
+
         console.log("login token is " + response.data.token);
-        console.log(response.data.user);
+        // console.log(response.data.user);
+
+        this.username = response.data.user.username;
+        this.password = response.data.user.password;
 
         await this.$store.dispatch("setToken", response.data.token);
-        // if (response.data.token) {
-        //   localStorage.setItem("token", JSON.stringify(response.data.token));
-        // }
         await this.$store.dispatch("setUsername", response.data.user.username);
         await this.$store.dispatch("setUserStatus", response.data.user.status);
         await this.$store.dispatch("setUserID", response.data.user.id);
         await this.$store.dispatch("setUserImg", response.data.user.img);
+
+        console.log("login token is " );
 
         this.$router.push({
           name: "dashboard",
@@ -113,11 +114,10 @@ export default {
         this.error = error.response.data.error;
         this.username = "";
         this.password = "";
-        console.log("Login error");
+        console.log("Login error", this.error);
       }
     },
   },
 };
 </script>
-<style>
-</style>
+<style></style>

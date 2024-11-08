@@ -1,23 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
+
 Vue.use(Vuex)
 export default new Vuex.Store({
-    // strict: true,
+    strict: true,
     plugins: [
-        createPersistedState()
+        createPersistedState(
+            {paths: ['token', 'username', 'userStatus', 'userID', 'userImg', 'isUserLoggedIn']}
+        )
     ],
-    state: () => ({
+    state: {
         token: null,
         username: null,
         userStatus: null,
         userID: null,
         userImg: null,
         isUserLoggedIn: false,
-    }),
+    },
     getters: {
         getState: state => {
-          return state
+            return state
         }
     },
     mutations: {
@@ -28,16 +31,16 @@ export default new Vuex.Store({
         setUsername(state, username) {
             state.username = username
         },
-        setUserStatus(state, status){
+        setUserStatus(state, status) {
             state.userStatus = status
         },
-        setUserID(state, id){
+        setUserID(state, id) {
             state.userID = id
         },
-        setUserImg(state, img){
+        setUserImg(state, img) {
             state.userImg = img
         },
-        logout(state){
+        logout(state) {
             state.token = null
             state.isUserLoggedIn = null
             state.username = null
@@ -54,16 +57,16 @@ export default new Vuex.Store({
             // commit('setUser', user)
             commit('setUsername', username)
         },
-        setUserStatus({ commit }, status){
+        setUserStatus({ commit }, status) {
             commit('setUserStatus', status)
         },
-        setUserID({ commit }, id){
+        setUserID({ commit }, id) {
             commit('setUserID', id)
         },
-        setUserImg({ commit }, img){
+        setUserImg({ commit }, img) {
             commit('setUserImg', img)
         },
-        logout({commit}){
+        logout({ commit }) {
             commit('logout')
         }
     }

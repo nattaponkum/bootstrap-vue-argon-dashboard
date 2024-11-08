@@ -96,7 +96,7 @@
   </div>
 </template>
 <script>
-
+import UserService from '../../services/UserService';
   export default {
     name: 'register',
     data() {
@@ -110,8 +110,17 @@
       }
     },
     methods: {
-      onSubmit() {
+      async onSubmit() {
         // this will be called only after form is valid. You can do an api call here to register users
+        try{
+          var user = await UserService.register(this.model);
+          this.$router.push('/login');
+          console.log('User registered successfully', user);
+        }
+        catch{
+          console.log('Error registering user');
+        }
+
       }
     }
 

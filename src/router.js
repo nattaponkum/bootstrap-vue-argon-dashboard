@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import DashboardLayout from '@/views/Layout/DashboardLayout'
 import AuthLayout from '@/views/Pages/AuthLayout'
-import store from './store'
+
 
 Vue.use(Router)
 

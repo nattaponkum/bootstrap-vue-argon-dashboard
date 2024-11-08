@@ -35,19 +35,19 @@
           </b-row>
         </div>
         <b-navbar-nav class="align-items-lg-center ml-lg-auto">
-          <li v-if="$store.getters.getState.token!=null" class="nav-item">
+          <li v-if="isLogin" class="nav-item">
             <b-nav-item to="/dashboard">
               <i class="ni ni-planet"></i>
               <span class="nav-link-inner--text">Dashboard</span>
             </b-nav-item>
           </li>
-          <li v-if="$store.getters.getState.token!=null" class="nav-item">
+          <li v-if="isLogin" class="nav-item">
             <b-nav-item to="/battery">
               <i class="ni ni-planet"></i>
               <span class="nav-link-inner--text">Battery</span>
             </b-nav-item>
           </li>
-          <li v-if="$store.getters.getState.token != null && $store.getters.getState.userStatus == 'admin'" class="nav-item">
+          <li v-if="isLogin && isAdmin" class="nav-item">
             <b-nav-item to="/register">
               <i class="ni ni-circle-08"></i>
               <span class="nav-link-inner--text">Register</span>
@@ -57,7 +57,7 @@
             <i class="ni ni-key-25"></i>
             <span class="nav-link-inner--text">Login</span>
           </b-nav-item>
-          <li v-if="$store.getters.getState.token!=null" class="nav-item">
+          <li v-if="isLogin" class="nav-item">
             <b-nav-item to="/profile">
               <i class="ni ni-single-02"></i>
               <span class="nav-link-inner--text">Profile</span>
@@ -146,6 +146,12 @@ export default {
     },
   },
   methods: {
+    async isAdmin(){
+      return await this.$store.getters.getState.userStatus == 'admin';
+    },
+    async isLogin(){
+      return await this.$store.getters.getState.token!=null;
+    },
     toggleNavbar() {
       document.body.classList.toggle("nav-open");
       this.showMenu = !this.showMenu;

@@ -486,7 +486,7 @@
       // fix date to 2020-09-25
       // var today = moment("2020-09-25", "YYYY-MM-DD", true);
       // use today date
-      var today = moment()
+      var today = moment() //.subtract(1, 'days');
       var month = today.get("month", "M") + 1;
       var year = today.get("year", "YYYY");
       var yesterday = today.clone().subtract("1", "day");
@@ -510,15 +510,14 @@
       console.log("strLastYear = " + strLastYear);
 
       // call backend for data
-      this.pv = (await PVService.showByDate(strDate)).data;
-      console.log(this.pv);
+      this.pv = (await PVService.showByDate(strDate, 'Ppv1')).data;
+      console.log("this.pv: ", this.pv);
 
       // get pv by date for bigLineChart
-      this.bigLineChart.allData = getColumn(this.pv, "Pac");
-      
-      this.bigLineChart.allLabels = getPVLabelList(getColumn(this.pv, "Time"));
-      
+      this.bigLineChart.allData = getColumn(this.pv, "Ppv1");
       console.log("allData:"+this.bigLineChart.allData)
+      
+      this.bigLineChart.allLabels = getPVLabelList(getColumn(this.pv, "timestamp"));
       console.log("allLabels:"+this.bigLineChart.allLabels)
 
       // get power aggregate data
@@ -540,8 +539,8 @@
         // get data from Backend
         // use last year str if month number > current month number
         console.log('monthNumberArr['+i+']='+(monthNumberArr[i]+1)+' month = '+month)
-        var monthlyData = (monthNumberArr[i] <= month)?(await PVService.showTotalByMonth(strYear+'-'+formattedNumber)).data
-                                                    : (await PVService.showTotalByMonth((strLastYear)+'-'+formattedNumber)).data
+        var monthlyData = (monthNumberArr[i] <= month)?(await PVService.showTotalByMonth(strYear+'-'+formattedNumber, 'Ppv1')).data
+                                                    : (await PVService.showTotalByMonth((strLastYear)+'-'+formattedNumber, 'Ppv1')).data
         console.log(strYear+'-'+formattedNumber+" = "+monthlyData)
         monthlyDataArr.push(monthlyData);
 
@@ -561,7 +560,7 @@
       
       for (var j=0;j<yearNumberArr.length;j++){
         console.log("j = "+j);
-        var yearlyData = (await PVService.showTotalByYear(yearNumberArr[j])).data; 
+        var yearlyData = (await PVService.showTotalByYear(yearNumberArr[j], 'Ppv1')).data; 
         yearlyDataArr.push(yearlyData);
       }
       console.log("yearlyDataArr = "+yearlyDataArr);
@@ -570,17 +569,17 @@
       this.redBarChart.allLabels[1] = yearNumberArr;
 
       //get pv data for cards that represent daily Pac total number
-      this.PacTodayTotal = (await PVService.showTotalByDate(strDate)).data;
+      this.PacTodayTotal = (await PVService.showTotalByDate(strDate, 'Ppv1')).data;
       this.PacYesterdayTotal = (
-        await PVService.showTotalByDate(strYesterday)
+        await PVService.showTotalByDate(strYesterday, 'Ppv1')
       ).data;
       this.PacDiffTodayTotal = this.PacTodayTotal - this.PacYesterdayTotal;
       console.log("PacTodayTotal = "+this.PacTodayTotal);
       console.log("PacYesterdayTotal = "+this.PacYesterdayTotal);
       console.log("PacDiffTodayTotal = "+this.PacDiffTodayTotal);
       // get pv data for cards that represent  monthly Pac total number
-      this.PacMonthTotal = (await PVService.showTotalByMonth(strMonth)).data;
-      this.PacLastMonthTotal = (await PVService.showTotalByMonth(strLastMonth)).data;
+      this.PacMonthTotal = (await PVService.showTotalByMonth(strMonth, 'Ppv1')).data;
+      this.PacLastMonthTotal = (await PVService.showTotalByMonth(strLastMonth, 'Ppv1')).data;
       this.PacDiffMonthTotal = this.PacMonthTotal - this.PacLastMonthTotal;
       console.log("PacMonthTotal = "+this.PacMonthTotal);
       console.log("PacLastMonthTotal = "+this.PacLastMonthTotal);

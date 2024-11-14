@@ -4,7 +4,7 @@ export default {
         return Api().get('PVS')
     },
     showByDate(date, attr) {
-        return Api().get('PVDATE/' + date + '/' + attr)
+        return Api().get('PVDATE/' + date)
     },
     showTotalByDate(date, attr) {
         return Api().get('PVTOTALDATE/' + date + '/' + attr)

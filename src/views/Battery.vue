@@ -20,7 +20,7 @@
                 </h5>
                 <span class="h4 font-weight-bold mb-0">{{ 
                   
-                  "xxxx-1111-2023"
+                  "xxxx-1111-2024"
                 }}</span>
               </div>
             </div>
@@ -84,7 +84,7 @@
                   Rated capacity
                 </h5>
                 <span class="h4 font-weight-bold mb-0">{{ 
-                  "10,000 kWh"
+                  "XX,XXX kWh"
                 }}</span>
               </div>
             </div>
@@ -469,38 +469,7 @@ import BatteryService from "@/services/BatteryService.js";
 const fs = require("fs");
 const readline = require("readline");
 
-function getData(){
-  const streamBattery = fs.createReadStream("./charge-discharge-power.csv");
-  const reader = readline.createInterface({ input: streamBattery });
-  let data = [];
-  reader.on("line", row => {
-    // 👇 split a row string into an array
-    // then push into the data array
-    data.push(row.split(","));
-  });
 
-  reader.on("close", () => {
-    // 👇 reached the end of file
-    console.log("allData:"+this.bigLineChart.allData)
-  });
-  return data;
-}
-function getLabels(){
-  const streamTimeBattery = fs.createReadStream("./time-battery.csv");
-  const reader = readline.createInterface({ input: streamTimeBattery });
-  let data = [];
-  reader.on("line", row => {
-    // 👇 split a row string into an array
-    // then push into the data array
-    data.push(row.split(","));
-  });
-
-  reader.on("close", () => {
-    // 👇 reached the end of file
-    console.log("allLabels:"+data)
-  });
-  return data;
-}
 
     
 
@@ -620,7 +589,7 @@ export default {
   },
   data() {
     return {
-      pv: {
+      battery: {
         Alias: "",
         Time: "",
         Status: "",
@@ -792,9 +761,29 @@ export default {
     // // this.bigLineChart.allData = getColumn(this.battery, "charge_discharge_power");
     // // this.bigLineChart.allLabels = getPVLabelList(getColumn(this.battery, "timestamp"));
 
-    // read csv file while in mockup state
-    this.bigLineChart.allData = getData()
-    this.bigLineChart.allLabels = getLabels()
+    // call backend for data
+    this.battery = (await BatteryService.showByDate(strDate)).data;
+    console.log("this.battery: ", this.battery);
+
+    // get pv by date for bigLineChart
+    this.bigLineChart.allData = getColumn(this.pv, "Ppv1");
+
+
+    this.bigLineChart.allLabels = getPVLabelList(
+      getColumn(this.pv, "timestamp")
+    );
+    var nullIndexList = this.getNullIndices(this.bigLineChart.allData);
+
+    this.bigLineChart.allLabels = this.removeItemsByIndices(
+      this.bigLineChart.allLabels,
+      nullIndexList
+    );
+    this.bigLineChart.allData = this.removeItemsByIndices(
+      this.bigLineChart.allData,
+      nullIndexList
+    );
+    console.log("allData:" + this.bigLineChart.allData);
+    console.log("allLabels:" + this.bigLineChart.allLabels);
     
     
     
@@ -816,8 +805,8 @@ export default {
       // get data from Backend
       // use last year str if month number > current month number
       console.log('monthNumberArr['+i+']='+(monthNumberArr[i]+1)+' month = '+month)
-      var monthlyData = (monthNumberArr[i] <= month)?(await BatteryService.showTotalByMonth(strYear+'-'+formattedNumber)).data
-                                                   : (await BatteryService.showTotalByMonth((strLastYear)+'-'+formattedNumber)).data
+      var monthlyData = (monthNumberArr[i] <= month)?(await BatteryService.showTotalByMonth(strYear+'-'+formattedNumber,'BatP_card_Hv1')).data
+                                                   : (await BatteryService.showTotalByMonth((strLastYear)+'-'+formattedNumber),'BatP_card_Hv1').data
       console.log(strYear+'-'+formattedNumber+" = "+monthlyData)
       monthlyDataArr.push(monthlyData);
 
@@ -835,7 +824,7 @@ export default {
     
     for (var j=0;j<yearNumberArr.length;j++){
       console.log("j = "+j);
-      var yearlyData = (await BatteryService.showTotalByYear(yearNumberArr[j])).data; 
+      var yearlyData = (await BatteryService.showTotalByYear(yearNumberArr[j],'BatP_card_Hv1')).data; 
       yearlyDataArr.push(yearlyData);
     }
     console.log("yearlyDataArr = "+yearlyDataArr);
@@ -844,16 +833,16 @@ export default {
     this.redBarChart.allLabels[1] = yearNumberArr;
 
     //get pv data for cards that represent daily Pac total number
-    this.PacTodayTotal = (await BatteryService.showTotalByDate(strDate)).data;
+    this.PacTodayTotal = (await BatteryService.showTotalByDate(strDate,'BatP_card_Hv1')).data;
     this.PacYesterdayTotal = (
-      await BatteryService.showTotalByDate(strYesterday)
+      await BatteryService.showTotalByDate(strYesterday,'BatP_card_Hv1')
     ).data;
     this.PacDiffTodayTotal = this.PacYesterdayTotal - this.PacTodayTotal;
 
     // get pv data for cards that represent  monthly Pac total number
-    this.PacMonthTotal = (await BatteryService.showTotalByMonth(strYear+'-'+get2DigitNumber(strMonth))).data;
+    this.PacMonthTotal = (await BatteryService.showTotalByMonth(strYear+'-'+get2DigitNumber(strMonth),'BatP_card_Hv1')).data;
     this.PacLastMonthTotal = (
-      await BatteryService.showTotalByMonth(strLastMonth)
+      await BatteryService.showTotalByMonth(strLastMonth,'BatP_card_Hv1')
     ).data;
     this.PacDiffMonthTotal = this.PacLastMonthTotal - this.PacMonthTotal;
 

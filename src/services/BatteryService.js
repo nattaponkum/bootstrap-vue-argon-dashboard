@@ -3,19 +3,19 @@ export default {
     index() {
         return Api().get('Batteries')
     },
-    showByDate(date) {
+    showByDate(date, attr) {
         return Api().get('BatteryDATE/' + date)
     },
-    // showTotalByDate(date) {
-    //     return Api().get('PVTOTALDATE/' + date)
-    // },
-    // showTotalByMonth(month) {
-    //     return Api().get('PVTOTALMONTH/' + month)
-    // },
-    // showTotalByYear(year) {
-    //     return Api().get('PVTOTALYEAR/' + year)
-    // },
-    post(PV) {
-        return Api().post('Battery', PV)
+    showTotalByDate(date, attr) {
+        return Api().get('BatteryTOTALDATE/' + date + '/' + attr)
+    },
+    showTotalByMonth(month, attr) {
+        return Api().get('BatteryTOTALMONTH/' + month + '/' + attr)
+    },
+    showTotalByYear(year, attr) {
+        return Api().get('BatteryTOTALYEAR/' + year + '/' + attr)
+    },
+    post(battery) {
+        return Api().post('Battery', battery)
     }
 }

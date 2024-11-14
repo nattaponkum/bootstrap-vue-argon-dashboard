@@ -518,7 +518,7 @@ export default {
     console.log("strLastYear = " + strLastYear);
 
     // call backend for data
-    this.pv = (await PVService.showByDate(strDate, "Ppv1")).data;
+    this.pv = (await PVService.showByDate(strDate)).data;
     console.log("this.pv: ", this.pv);
 
     // get pv by date for bigLineChart

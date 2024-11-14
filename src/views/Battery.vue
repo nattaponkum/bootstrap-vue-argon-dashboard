@@ -96,13 +96,13 @@
               </div>
             </div>
             <template v-slot:footer>
-              <div v-if="this.PacLastMonthTotal > 0">
-                <div v-if="this.PacDiffMonthTotal > 0">
+              <div v-if="this.BatPLastMonthTotal > 0">
+                <div v-if="this.BatPDiffMonthTotal > 0">
                   <span class="text-success mr-2">
                     <i class="fa fa-arrow-up"></i
                     >{{
                       (
-                        (this.PacDiffMonthTotal / this.PacLastMonthTotal) *
+                        (this.BatPDiffMonthTotal / this.BatPLastMonthTotal) *
                         100
                       ).toFixed(2)
                     }}%
@@ -112,7 +112,7 @@
                 <div v-else>
                   <span class="text-danger mr-2">
                     <i class="fa fa-arrow-down"></i
-                    >{{ this.PacLastMonthTotal }}%
+                    >{{ this.BatPLastMonthTotal }}%
                   </span>
                   <span class="text-nowrap">Since Last Month</span>
                 </div>
@@ -516,7 +516,7 @@ function getMonthLabelArr(monthArr) {
 }
 
 // function getYearlyPower(year){
-//   return dataSet.map((x) => x["Pac"])
+//   return dataSet.map((x) => x["BatP"])
 // }
 
 export default {
@@ -633,15 +633,15 @@ export default {
         BatSoCMin_Lv2: 0.0,
         BatSoCHys_Lv2: 0.0,
       },
-      PacMonthTotal: 0,
-      PacLastMonthTotal: 0,
-      PacDiffMonthTotal: 0,
+      BatPMonthTotal: 0,
+      BatPLastMonthTotal: 0,
+      BatPDiffMonthTotal: 0,
 
-      PacTodayTotal: 0,
-      PacYesterdayTotal: 0,
-      PacDiffTodayTotal: 0,
+      BatPTodayTotal: 0,
+      BatPYesterdayTotal: 0,
+      BatPDiffTodayTotal: 0,
 
-      PacUnitCost: 5,
+      BatPUnitCost: 5,
 
       bigLineChart: {
         // allData: [
@@ -717,7 +717,7 @@ export default {
       let redBarChartData = {
         datasets: [
           {
-            label: "Pac",
+            label: "BatP",
             data: this.redBarChart.allData[index],
           },
         ],
@@ -729,7 +729,7 @@ export default {
       let bigLineChartData = {
         datasets: [
           {
-            label: "Pac",
+            label: "BatP",
             data: this.bigLineChart.allData,
           },
         ],
@@ -740,17 +740,17 @@ export default {
       this.bigLineChart.activeIndex = index;
 
       // console.log(
-      //   "Output " + this.PacTodayTotal + " " + this.PacDiffTodayTotal
+      //   "Output " + this.BatPTodayTotal + " " + this.BatPDiffTodayTotal
       // );
     },
     initTotalCards() {
       // console.log(
       //   "initTotalCards",
-      //   this.PacMonthTotal,
-      //   this.PacDiffMonthTotal,
-      //   this.PacTodayTotal,
-      //   this.PacDiffTodayTotal,
-      //   this.PacUnitCost
+      //   this.BatPMonthTotal,
+      //   this.BatPDiffMonthTotal,
+      //   this.BatPTodayTotal,
+      //   this.BatPDiffTodayTotal,
+      //   this.BatPUnitCost
       // );
     },
   },
@@ -810,25 +810,25 @@ export default {
 
 
     //get battery data for cards that represent daily BatP_card_Hv1 total number
-    this.PacTodayTotal = (
+    this.BatPTodayTotal = (
       await BatteryService.showTotalByDate(strDate, "BatP_card_Hv1")
     ).data;
-    this.PacYesterdayTotal = (
+    this.BatPYesterdayTotal = (
       await BatteryService.showTotalByDate(strYesterday, "BatP_card_Hv1")
     ).data;
-    this.PacDiffTodayTotal = this.PacYesterdayTotal - this.PacTodayTotal;
+    this.BatPDiffTodayTotal = this.BatPYesterdayTotal - this.BatPTodayTotal;
 
     // get battery data for cards that represent  monthly BatP_card_Hv1 total number
-    this.PacMonthTotal = (
+    this.BatPMonthTotal = (
       await BatteryService.showTotalByMonth(
         strYear + "-" + get2DigitNumber(strMonth),
         "BatP_card_Hv1"
       )
     ).data;
-    this.PacLastMonthTotal = (
+    this.BatPLastMonthTotal = (
       await BatteryService.showTotalByMonth(strLastMonth, "BatP_card_Hv1")
     ).data;
-    this.PacDiffMonthTotal = this.PacLastMonthTotal - this.PacMonthTotal;
+    this.BatPDiffMonthTotal = this.BatPLastMonthTotal - this.BatPMonthTotal;
 
 
     await this.initBigChart(0);

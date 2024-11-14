@@ -131,7 +131,7 @@
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">SOC</h5>
                 <span class="h4 font-weight-bold mb-0"
-                  >{{ numberWithCommas(87.45) }}%</span
+                  >{{ numberWithCommas(getLatestNotNullData(this.battery, 'BatSoC_bms_Hv1')) }}%</span
                 >
               </div>
             </div>
@@ -150,7 +150,7 @@
                   Charge/discharge power
                 </h5>
                 <span class="h5 font-weight-bold mb-0"
-                  >{{ numberWithCommas(0.043) }}kWh</span
+                  >{{ numberWithCommas(getLatestNotNullData(this.battery, 'BatP_card_Hv1')) }} Wh</span
                 >
               </div>
             </div>
@@ -169,7 +169,7 @@
                   Internal temperature
                 </h5>
                 <span class="h4 font-weight-bold mb-0"
-                  >{{ numberWithCommas(44.9) }}°C</span
+                  >[{{ numberWithCommas(getLatestNotNullData(this.battery, 'MinCellTemp_bms_Hv1')) }},{{ numberWithCommas(getLatestNotNullData(this.battery, 'MaxCellTemp_bms_Hv1')) }}] °C</span
                 >
               </div>
             </div>
@@ -179,6 +179,9 @@
       <br />
       <!-- 3rd row -->
       <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          
+        </div> 
         <div class="col-xl-3 col-lg-6">
           <stats-card
             type="gradient-info"
@@ -192,26 +195,7 @@
                   Daily discharge energy
                 </h5>
                 <span class="h4 font-weight-bold mb-0"
-                  >{{ numberWithCommas(1.24) }}kWh</span
-                >
-              </div>
-            </div>
-          </stats-card>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <stats-card
-            type="gradient-red"
-            icon="ni ni-bulb-61"
-            class="mb-4 mb-xl-0"
-          >
-            <!-- Card body -->
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">
-                  Total discharge energy
-                </h5>
-                <span class="h4 font-weight-bold mb-0"
-                  >{{ numberWithCommas(166.371) }}kWh</span
+                  >{{ numberWithCommas(cummuDischargeEnergy(this.bigLineChart.allData)) }} Wh</span
                 >
               </div>
             </div>
@@ -230,7 +214,7 @@
                   Bus voltage
                 </h5>
                 <span class="h5 font-weight-bold mb-0"
-                  >{{ numberWithCommas(492.1) }}V</span
+                  >{{ numberWithCommas(getLatestNotNullData(this.battery, 'BusV_card_Hv1')) }} V</span
                 >
               </div>
             </div>
@@ -249,7 +233,7 @@
                   Bus current
                 </h5>
                 <span class="h4 font-weight-bold mb-0"
-                  >{{ numberWithCommas(0.1) }}A</span
+                  >{{ numberWithCommas(getLatestNotNullData(this.battery, 'BusI_card_Hv1')) }} A</span
                 >
               </div>
             </div>
@@ -692,6 +676,26 @@ export default {
     };
   },
   methods: {
+    cummuDischargeEnergy(dataSet) {
+      var i;
+      var sum = 0;
+      for (i = 1; i < dataSet.length; i++) {
+        if ((dataSet[i] < dataSet[i-1]) && (dataSet[i-1] !== null)) {
+          sum += (dataSet[i] - dataSet[i-1]);
+        }
+      }
+      return sum;
+    },
+    getLatestNotNullData(dataSet, propertyName) {
+      var i = dataSet.length - 1;
+      while (i >= 0) {
+        if (dataSet[i][propertyName] !== null) {
+          return dataSet[i][propertyName];
+        }
+        i--;
+      }
+      return null;
+    },
     getNullIndices(data) {
       let nullIndices = [];
       data.forEach((value, index) => {
@@ -708,9 +712,13 @@ export default {
       return dataSet.filter((x) => x !== null);
     },
     numberWithCommas(x) {
+      if (x === null) {
+        return 'Unknown';
+      }
+      // round x to 3 decimal places
+      x = Math.round(x * 1000) / 1000;
       var parts = x.toString().split(".");
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      console.log(parts[0]);
       return parts.join(".");
     },
     initBigChart(index) {
@@ -784,7 +792,7 @@ export default {
     console.log("this.battery: ", this.battery);
 
     // get pv by date for bigLineChart
-    this.bigLineChart.allData = getColumn(this.battery, "BatP_card_Hv1");
+    this.bigLineChart.allData = getColumn(this.battery, "BatP_card_Hv1"); //  BatP_card_Hv1
 
     this.bigLineChart.allLabels = getTimeLabelList(
       getColumn(this.battery, "timestamp")

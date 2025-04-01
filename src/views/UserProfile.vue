@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-lg-10 col-md-10">
             <h1 class="display-2 text-white">
-              Hello {{ model.name }} {{ model.lastname }}
+              Hello {{ this.$data.model.name }} {{ this.$data.model.lastname }}
             </h1>
             <!-- <p class="text-white mt-0 mb-5">
               This is your profile page.
@@ -35,11 +35,13 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                   <a href="#">
-                    <img v-if="model.gender=='female'"
+                    <img
+                      v-if="model.gender == 'female'"
                       src="img/profile/ic_profile.png"
                       class="rounded-circle"
                     />
-                    <img v-else
+                    <img
+                      v-else
                       src="img/profile/ic_profile.png"
                       class="rounded-circle"
                     />
@@ -108,29 +110,31 @@
           <card shadow type="secondary">
             <template v-slot:header>
               <div class="bg-white border-0">
-              <div class="row align-items-center">
-                <div class="col-8">
-                  <h3 class="mb-0">My account</h3>
-                </div>
-                <div class="col-4 text-right">
-                  <base-button type="primary" @click="editUser()">
-                    Save
-                  </base-button>
-                </div>
-                <div class="col-4 text-center">
-                  <modal v-bind:show="modals.modal0">
-                    <div>
-                      Your profile have successfully updated.
-                    </div>
-                    <template v-slot:footer>
-                        <base-button type="secondary" @click="modals.modal0 = false">Close</base-button>
-                    </template>
-                  </modal>
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">My account</h3>
+                  </div>
+                  <div class="col-4 text-right">
+                    <base-button type="primary" @click="editUser()">
+                      Save
+                    </base-button>
+                  </div>
+                  <div class="col-4 text-center">
+                    <modal v-bind:show="modals.modal0">
+                      <div>Your profile have successfully updated.</div>
+                      <template v-slot:footer>
+                        <base-button
+                          type="secondary"
+                          @click="modals.modal0 = false"
+                          >Close</base-button
+                        >
+                      </template>
+                    </modal>
+                  </div>
                 </div>
               </div>
-            </div>
             </template>
-            
+
             <template>
               <form @submit.prevent>
                 <h6 class="heading-small text-muted mb-4">User information</h6>
@@ -228,28 +232,30 @@
                 <h6 class="heading-small text-muted mb-4">About me</h6>
                 <div class="pl-lg-4">
                   <div class="form-group">
-                    <base-input 
-                      alternative="" 
-                      label="About Me" 
+                    <base-input
+                      alternative=""
+                      label="About Me"
                       input-classes="form-control-alternative"
                       v-model="model.about">
-                        <!-- <textarea
+                      <!-- <textarea
                           rows="4"
                           class="form-control form-control-alternative"
                           placeholder="A few words about you ..."
                         ></textarea> -->
                     </base-input>
-                    <base-input 
-                      alternative="" 
-                      label="Workplace" 
+                    <base-input
+                      alternative=""
+                      label="Workplace"
                       input-classes="form-control-alternative"
-                      v-model="model.workplace">
+                      v-model="model.workplace"
+                    >
                     </base-input>
-                    <base-input 
-                      alternative="" 
-                      label="Position" 
+                    <base-input
+                      alternative=""
+                      label="Position"
                       input-classes="form-control-alternative"
-                      v-model="model.position">
+                      v-model="model.position"
+                    >
                     </base-input>
                   </div>
                 </div>
@@ -281,35 +287,34 @@ export default {
         workplace: "",
         position: "",
         province: "",
-        status: ""
+        status: "",
       },
       modals: {
-        modal0: false
+        modal0: false,
       },
     };
   },
-  methods:{
-    async editUser () {
+  methods: {
+    async editUser() {
       try {
-        await UserService.put(this.$data.model)
+        await UserService.put(this.$data.model);
         // show modal successfully save user profile
-        this.$data.modals.modal0 = !this.$data.modals.modal0
-        console.log(this.$data.modals.modal0)
+        this.$data.modals.modal0 = !this.$data.modals.modal0;
+        console.log(this.$data.modals.modal0);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
+    },
   },
   async mounted() {
     try {
-      let userId = this.$store.getters.getState.userID
-      this.$data.model = (await UserService.show(userId)).data
-      console.log(this.$data.model)
+      let userId = this.$store.getters.getState.userID;
+      this.$data.model = (await UserService.show(userId)).data;
+      console.log(this.$data.model);
     } catch (error) {
-      console.log (error)
+      console.log(error);
     }
   },
-  
 };
 </script>
 <style></style>

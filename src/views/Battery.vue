@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-header type="gradient-egat" class="pb-6 pb-8 pt-5 pt-md-8">
+    <base-header type="gradient-egat" class="pb-6 pb-8 pt-5 pt-md-8 bg-gradient-success">
       <!-- Card stats 1st row-->
       <div class="row">
         <div class="col-xl-3 col-lg-6">

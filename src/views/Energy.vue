@@ -339,7 +339,7 @@ export default {
           datasets: [],
           labels: [],
         },
-        extraOptions: chartConfigs.redChartOptions, //blueChartOptions
+        extraOptions: chartConfigs.blueChartOptions, //blueChartOptions
       },
       date: "",
       signal: {

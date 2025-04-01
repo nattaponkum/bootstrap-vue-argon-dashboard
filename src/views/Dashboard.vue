@@ -186,27 +186,22 @@
           <card type="default" header-classes="bg-transparent">
             <b-row align-v="center" slot="header">
               <b-col cols="6" xl="4" md="6" sm="4" class="text-left">
-                
-                  <h6 class="text-light text-uppercase ls-1 mb-1">Power A/C</h6>
-                  <h5 class="h3 text-white mb-0">Pac Daily</h5>
-                
+                <h6 class="text-light text-uppercase ls-1 mb-1">Power A/C</h6>
+                <h5 class="h3 text-white mb-0">Pac Daily</h5>
               </b-col>
               <b-col cols="6" xl="8" md="6" sm="8" class="text-right">
-                
-                  <!-- date picker for today value -->
-                  <b-form-datepicker
-                    id="pac-datepicker"
-                    size="sm"
-                    v-model="selectedDate"
-                    menu-class="w-100"
-                    calendar-width="100%"
-                    :max="new Date().toISOString().slice(0, 10)"
-                    
-                    placeholder="Select Date"
-                    :today-button="true"
-                    :reset-button="true"
-                  ></b-form-datepicker>
-                
+                <!-- date picker for today value -->
+                <b-form-datepicker
+                  id="pac-datepicker"
+                  size="sm"
+                  v-model="selectedDate"
+                  menu-class="w-100"
+                  calendar-width="100%"
+                  :max="new Date().toISOString().slice(0, 10)"
+                  placeholder="Select Date"
+                  :today-button="true"
+                  :reset-button="true"
+                ></b-form-datepicker>
               </b-col>
             </b-row>
 
@@ -216,39 +211,7 @@
               ref="bigChart"
               :chart-data="bigLineChart.chartData"
               :extra-options="bigLineChart.extraOptions"
-              :options="{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    display: true,
-                  },
-                  tooltip: {
-                    enabled: true,
-                  },
-                },
-                scales: {
-                  x: {
-                    title: {
-                      display: true,
-                      text: 'Time (HH:mm)', // Add label for x-axis
-                    },
-                    ticks: {
-                      autoSkip: true,
-                      maxTicksLimit: 10,
-                    },
-                  },
-                  y: {
-                    title: {
-                      display: true,
-                      text: 'Power (kW)', // Add label for y-axis
-                    },
-                    ticks: {
-                      beginAtZero: true,
-                    },
-                  },
-                },
-              }"
+              
             >
             </line-chart>
           </card>
@@ -294,7 +257,7 @@
         </b-col>
       </b-row>
       <!-- add test-chart here as last row that take all remain screen width -->
-       
+
       <!-- End charts-->
 
       <!--Tables-->
@@ -705,33 +668,7 @@ export default {
   async mounted() {
     await this.fetchData();
     console.log("mounted");
-    console.log(this.$store); // This should now log the Vuex store
-
-    const ctx = document.getElementById('test-chart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar'],
-        datasets: [{ label: 'Test Data', data: [10, 20, 30] }],
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Time (HH:mm)',
-            },
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Power (kW)',
-            },
-          },
-        },
-      },
-    });
+    console.log(await this.$store); // This should now log the Vuex store
   },
 };
 </script>

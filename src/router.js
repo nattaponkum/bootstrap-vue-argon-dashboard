@@ -3,8 +3,7 @@ import Router from 'vue-router'
 
 import DashboardLayout from '@/views/Layout/DashboardLayout'
 import AuthLayout from '@/views/Pages/AuthLayout'
-
-
+import store from './store' // Ensure the store is imported
 Vue.use(Router)
 
 // export const router =  new Router({
@@ -21,7 +20,7 @@ export default new Router({
         {
           path: '/dashboard',
           name: 'dashboard',
-          // beforeEnter : guardMyroute,
+          beforeEnter : guardMyroute,
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
@@ -30,18 +29,18 @@ export default new Router({
         {
           path: '/battery',
           name: 'battery',
-          // beforeEnter : guardMyroute,
+          beforeEnter : guardMyroute,
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
           component: () => import(/* webpackChunkName: "EGAT" */ './views/Battery.vue')
         },
-        {
-          path: '/energy',
-          name: 'Energy',
-          // beforeEnter : guardMyroute,
-          component: () => import(/* webpackChunkName: "EGAT" */ './views/Energy.vue')
-        },
+        // {
+        //   path: '/energy',
+        //   name: 'Energy',
+        //   // beforeEnter : guardMyroute,
+        //   component: () => import(/* webpackChunkName: "EGAT" */ './views/Energy.vue')
+        // },
         // {
         //   path: '/icons',
         //   name: 'icons',
@@ -51,7 +50,7 @@ export default new Router({
         {
           path: '/profile',
           name: 'profile',
-          // beforeEnter : guardMyroute,
+          beforeEnter : guardMyroute,
           component: () => import(/* webpackChunkName: "EGAT" */ './views/UserProfile.vue')
         },
         // {
@@ -79,7 +78,7 @@ export default new Router({
         {
           path: '/register',
           name: 'register',
-          // beforeEnter : guardMyroute,
+          beforeEnter : guardMyroute,
           component: () => import(/* webpackChunkName: "EGAT" */ './views/Register.vue')
         }
       ]
@@ -88,17 +87,25 @@ export default new Router({
   ]
   
 });
-// async function guardMyroute(to, from, next){
-//   // // redirect to login page if not logged in and trying to access a restricted page
-//   const loggedIn = await store.getters.getState.token;
-//   console.log(!!loggedIn,from.path,to.path)
+async function guardMyroute(to, from, next){
+  // // redirect to login page if not logged in and trying to access a restricted page
+  try{
+    const loggedIn = await store.getters.getState.token;
+    console.log(!!loggedIn,from.path,to.path)
+  
+    // confirm("From: "+ from.name + "\nTo: "+ to.name +"\nToken: "+loggedIn)
+    if (loggedIn) {
+      return next()
+    }
+    else {
+      console.log("ERROR")
+      return next({name: 'login'})
+    }
+  }
+  catch (error) {
+    console.error("Error in guardMyroute:", error);
+    return next({name: 'login'})
+  }
 
-//   // confirm("From: "+ from.name + "\nTo: "+ to.name +"\nToken: "+loggedIn)
-//   if (loggedIn) {
-//     return next()
-//   }
-//   else {
-//     console.log("ERROR")
-//     return next({name: 'login'})
-//   }
-// }
+  
+}

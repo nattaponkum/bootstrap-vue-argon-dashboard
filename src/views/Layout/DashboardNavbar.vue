@@ -39,7 +39,7 @@
                     <img alt="Image placeholder" src="img/theme/ic_profile.png">
                   </span>
             <b-media-body class="ml-2 d-none d-lg-block">
-              <span class="mb-0 text-sm  font-weight-bold">Anonymous</span>
+                <span class="mb-0 text-sm font-weight-bold">{{this.$store.state.username||"Anonymous" }}</span>
             </b-media-body>
           </b-media>
         </a>
@@ -54,7 +54,7 @@
             <span>My profile</span>
           </b-dropdown-item>
           <div class="dropdown-divider"></div>
-          <b-dropdown-item href="/logout">
+          <b-dropdown-item @click="handleLogout">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
           </b-dropdown-item>
@@ -86,7 +86,8 @@ export default {
     routeName() {
       const { name } = this.$route;
       return this.capitalizeFirstLetter(name);
-    }
+    },
+    
   },
   data() {
     return {
@@ -105,6 +106,10 @@ export default {
     },
     closeDropDown() {
       this.activeNotifications = false;
+    },
+    async handleLogout() {
+      await this.$store.dispatch('logout'); // Call Vuex logout action
+      this.$router.push('/login'); // Redirect to login page
     }
   }
 };

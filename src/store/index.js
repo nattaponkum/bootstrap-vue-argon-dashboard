@@ -30,6 +30,9 @@ const store = new Vuex.Store({
     setUserImg(state, img) {
       state.userImg = img;
     },
+    clearUserData(state) {
+      state.username = null;
+    },
   },
   actions: {
     setToken({ commit }, token) {
@@ -46,6 +49,10 @@ const store = new Vuex.Store({
     },
     setUserImg({ commit }, img) {
       commit('setUserImg', img);
+    },
+    logout({ commit }) {
+      commit('clearUserData'); // Clear user data
+      // Optionally, clear tokens or other session data here
     },
   },
 });

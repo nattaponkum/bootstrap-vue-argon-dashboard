@@ -1,5 +1,5 @@
 <template>
-  <div class="main-content bg-default">
+  <div class="main-content-wrapper">
     <base-nav
       v-model="showMenu"
       :transparent="true"
@@ -199,6 +199,10 @@ export default {
 };
 </script>
 <style lang="scss">
+.main-content-wrapper {
+  padding-top: 56px; /* Adjust this value based on the height of your navbar */
+}
+
 $scaleSize: 0.8;
 @keyframes zoomIn8 {
   from {

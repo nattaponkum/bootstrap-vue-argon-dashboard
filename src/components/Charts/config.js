@@ -1,5 +1,6 @@
 import { parseOptions } from "@/components/Charts/optionHelpers";
 import Chart from 'chart.js'
+import { text } from "d3";
 
 export const Charts = {
   mode: 'light',//(themeMode) ? themeMode : 'light';
@@ -133,6 +134,12 @@ function chartOptions() {
           return value
         }
       }
+    },
+    scaleLabel: { // Added xAxes label configuration
+      display: true,
+      labelString: 'Power (kW)', // Replace with your desired label
+      fontColor: (mode === 'dark') ? colors.gray[700] : colors.gray[600],
+      fontSize: 14
     }
   });
 
@@ -148,7 +155,13 @@ function chartOptions() {
     ticks: {
       padding: 20
     },
-    maxBarThickness: 10
+    maxBarThickness: 10,
+    scaleLabel: { // Added xAxes label configuration
+      display: true,
+      labelString: 'Time (HH:MM:SS)', // Replace with your desired label
+      fontColor: (mode === 'dark') ? colors.gray[700] : colors.gray[600],
+      fontSize: 14
+    }
   });
 
   return options;

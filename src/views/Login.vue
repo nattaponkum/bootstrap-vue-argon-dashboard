@@ -83,18 +83,29 @@ export default {
       error: null,
     };
   },
+  mounted() {
+    if (!this.$store) {
+      console.error("Vuex store is not accessible in Login.vue.");
+    } else {
+      console.log("Vuex store is accessible in Login.vue:", this.$store);
+    }
+  },
   methods: {
     async onLogin() {
-      //   event.preventDefault();
-      //   alert(JSON.stringify(this.username));
       try {
+        if (!this.$store) {
+          console.error("Vuex store is not initialized.");
+          this.error = "Internal error: Store is unavailable.";
+          return;
+        }
+
         const response = await AuthenService.login({
           username: this.username,
           password: this.password,
         });
 
         console.log("login token is " + response.data.token);
-        // console.log(response.data.user);
+        console.log(response.data);
 
         this.username = response.data.user.username;
         this.password = response.data.user.password;
@@ -105,13 +116,21 @@ export default {
         await this.$store.dispatch("setUserID", response.data.user.id);
         await this.$store.dispatch("setUserImg", response.data.user.img);
 
-        console.log("login token is " );
-
         this.$router.push({
           name: "dashboard",
         });
       } catch (error) {
-        this.error = error.response.data.error;
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          this.error = error.response.data.error; // Extract error message from the response
+        } else if (error.message) {
+          this.error = error.message; // Use the generic error message if available
+        } else {
+          this.error = "An unknown error occurred."; // Fallback error message
+        }
         this.username = "";
         this.password = "";
         console.log("Login error", this.error);

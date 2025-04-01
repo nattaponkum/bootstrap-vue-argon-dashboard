@@ -1,41 +1,36 @@
-/*!
-
-=========================================================
-* BootstrapVue Argon Dashboard - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/bootstrap-vue-argon-dashboard
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import Vue from 'vue';
+import Vuex from 'vuex';
 import DashboardPlugin from './plugins/dashboard-plugin';
 import App from './App.vue';
 
 import router from './router';
-import { sync } from 'vuex-router-sync'
-import VueResource from 'vue-resource'
-import store from './store'
+import { sync } from 'vuex-router-sync';
+import VueResource from 'vue-resource';
+import store from './store'; // Ensure the store is imported
 
 Vue.config.productionTip = false;
 
-sync(store, router)
+// Ensure Vuex is used before creating the Vue instance
+Vue.use(Vuex);
+
+// Sync Vuex store with the router
+sync(store, router);
 // plugin setup
 Vue.use(VueResource);
 Vue.use(DashboardPlugin);
+Vue.use(Vuex); // Ensure Vuex is used before creating the Vue instance
 
-console.log("VueJs version:"+Vue.version)
+// Debug logs
+console.log("Imported Vuex store:", store);
+console.log("VueJs version:", Vue.version);
+
 /* eslint-disable no-new */
 new Vue({
-  // el: '#app',
-  store,
-  render: h => h(App),
   router,
+  store, // Ensure the store is registered here
+  render: h => h(App),
+  mounted() {
+    console.log("Vue instance store:", this.$store); // Debug log to verify store injection
+  },
 }).$mount('#app');
 

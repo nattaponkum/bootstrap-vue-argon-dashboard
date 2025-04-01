@@ -1,0 +1,13 @@
+Dashboard
+1. เลือกวันที่ได้
+2. แสดง energy รายเดือน/ปี
+3. ใส่หน่วยแกน x,y
+
+battery
+1. แสดง power ข้อมูล bat ให้ครบ 3 เส้น
+
+JWT แก้ไขให้ login/register ได้
+วิเคราะห์ ค่าใช้จ่าย azure ที่เก็บข้อมูล และ transaction report ใน cloud
+
+
+021040791

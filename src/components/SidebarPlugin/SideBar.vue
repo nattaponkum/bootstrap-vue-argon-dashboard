@@ -37,7 +37,7 @@
                         </div>
                         <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-single-02"></i>
-                            <span>My profile</span>
+                            <span>My Profile</span>
                         </router-link>
                         <!-- <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>

@@ -4,9 +4,10 @@ Dashboard
 3. ใส่หน่วยแกน x ("Power (kW)"),y  ("Time (HH:MM:SS)")
 
 battery
-1. แสดง power ข้อมูล bat ให้ครบ 3 เส้น
+1. แสดง power ข้อมูล bat ให้ครบ 3 เส้น (Visualy, but deploying the middleware and testing with prod environment
 
-JWT แก้ไขให้ login/register ได้
+JWT แก้ไขให้ login/register ได้ (yes)
+
 วิเคราะห์ ค่าใช้จ่าย azure ที่เก็บข้อมูล และ transaction report ใน cloud
 
 

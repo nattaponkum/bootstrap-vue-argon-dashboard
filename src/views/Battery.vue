@@ -567,7 +567,7 @@ export default {
       this.battery = (await BatteryService.showByDate(strDate)).data;
       console.log("this.battery: ", this.battery);
 
-      // get pv by date for bigLineChart
+      // get Battery info by date for bigLineChart
       this.bigLineChart.allData[0] = getColumn(this.battery, "BatP_card_Hv1"); //  BatP_card_Hv1
       this.bigLineChart.allData[1] = getColumn(this.battery, "BatP_card_Lv1"); //  Battery Power Lv1
       this.bigLineChart.allData[2] = getColumn(this.battery, "BatP_card_Hv2"); //  Battery Power Hv2
